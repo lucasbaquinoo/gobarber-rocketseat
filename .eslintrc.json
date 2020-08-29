@@ -31,6 +31,7 @@
       ],
       "allow": ["log"],
       "class-methods-use-this": "off",
+      "@typescript-eslint/camelcase": "off",
       "prettier/prettier": "error"
    },
    "settings": {
