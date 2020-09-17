@@ -4,7 +4,7 @@ import fs from 'fs';
 
 import User from '../models/User';
 import uploadConfig from '../config/upload';
-// import AppError from '../errors/AppError';
+import AppError from '../errors/AppError';
 
 interface Request {
   user_id: string;
@@ -17,21 +17,22 @@ class UpdateUserAvatarService {
     const user = await userRepository.findOne(user_id);
 
     if (!user) {
-      throw new Error('Only authenticated users change avatar');
+      throw new AppError('Only authenticated users change avatar', 401);
     }
 
     if (user.avatar) {
       // Deletar avatar anterior
-      const userAvatarPath = path.join(uploadConfig.directory, user.avatar);
-      const userAvatarFileExist = await fs.promises.stat(userAvatarPath);
+      const userAvatarFilePath = path.join(uploadConfig.directory, user.avatar);
+      const userAvatarFileExist = await fs.promises.stat(userAvatarFilePath);
 
       if (userAvatarFileExist) {
-        await fs.promises.unlink(userAvatarPath);
+        await fs.promises.unlink(userAvatarFilePath);
       }
     }
 
     user.avatar = avatarFilename;
     await userRepository.save(user);
+
     return user;
   }
 }
