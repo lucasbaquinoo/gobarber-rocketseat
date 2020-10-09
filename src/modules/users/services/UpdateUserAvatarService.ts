@@ -19,7 +19,6 @@ class UpdateUserAvatarService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUserRepository,
-
     @inject('StorageProvider')
     private storageProvider: IStorageProvider,
   ) {}
