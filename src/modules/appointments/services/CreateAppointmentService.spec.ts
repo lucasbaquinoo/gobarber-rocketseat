@@ -18,6 +18,7 @@ beforeEach(() => {
     const appointment = await createAppointment.execute({
       date: new Date(),
       provider_id: '123456434',
+      user_id: 'user',
     });
 
     expect(appointment).toHaveProperty('id');
@@ -30,12 +31,14 @@ beforeEach(() => {
     await createAppointment.execute({
       date: new Date(),
       provider_id: '123456434',
+      user_id: 'user',
     });
 
     expect(
       createAppointment.execute({
         date: new Date(),
         provider_id: '123456434',
+        user_id: 'user',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
