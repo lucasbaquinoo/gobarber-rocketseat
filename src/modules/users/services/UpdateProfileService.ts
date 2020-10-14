@@ -1,6 +1,5 @@
 import { injectable, inject } from 'tsyringe';
 
-// import AppError from '@shared/errors/AppError';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 import IUserRepository from '../repositories/IUsersRepository';
 
@@ -44,6 +43,9 @@ class UpdateProfileService {
       throw new AppError('E-mail already in use.');
     }
 
+    user.name = name;
+    user.email = email;
+
     if (password && !old_password) {
       throw new AppError(
         'You need to inform the old password to set a new password.',
@@ -64,9 +66,6 @@ class UpdateProfileService {
     if (password) {
       user.password = await this.hashProvider.generateHash(password);
     }
-
-    user.name = name;
-    user.email = email;
 
     return this.usersRepository.save(user);
   }
